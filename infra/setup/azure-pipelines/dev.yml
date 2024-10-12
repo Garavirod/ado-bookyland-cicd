@@ -44,7 +44,7 @@ stages:
             displayName: terraform validate
             inputs:
               command: "validate"
-              workingDirectory: "/infra/setup"
+              workingDirectory: "infra/setup"
               allowTelemetryCollection: true
 
   - stage: TerraformDeploy
@@ -79,7 +79,7 @@ stages:
             displayName: terraform plan
             inputs:
               command: "plan"
-              workingDirectory: "/infra/setup"
+              workingDirectory: "infra/setup"
               commandOptions: -input=false -out=tf-plan -var "aws_region=$(region)"
               allowTelemetryCollection: true
               providerServiceAws: "aws_rod_dev_connection"
@@ -90,7 +90,7 @@ stages:
             displayName: terraform apply
             inputs:
               command: "apply"
-              workingDirectory: "/infra/setup"
+              workingDirectory: "infra/setup"
               commandOptions: tf-plan
               allowTelemetryCollection: true
               providerServiceAws: "aws_rod_dev_connection"
