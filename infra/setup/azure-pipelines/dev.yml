@@ -31,6 +31,7 @@ stages:
             inputs:
               command: "init"
               workingDirectory: "infra/setup"
+              commandOptions: -input=false -var "aws_region=$(variables.region)"
               backendType: "aws"
               allowTelemetryCollection: true
               backendServiceAws: "aws_rod_dev_connection"
@@ -65,6 +66,7 @@ stages:
             inputs:
               command: "init"
               workingDirectory: "infra/setup"
+              commandOptions: -input=false -var "aws_region=$(variables.region)"
               backendType: "aws"
               allowTelemetryCollection: true
               backendServiceAws: "aws_rod_dev_connection"
