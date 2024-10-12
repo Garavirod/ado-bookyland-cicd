@@ -7,7 +7,6 @@ resources:
 variables:
   - template: vars/global.yml
   - template: vars/dev.yml
-  - TF_VAR_aws_region: $(variables.region)
 
 pool:
   name: Default
