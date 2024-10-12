@@ -1,0 +1,5 @@
+variables:
+  bucketState: ''
+  dynamoTable: ''
+  region: 'eu-east-1'
+  env: 'dev'

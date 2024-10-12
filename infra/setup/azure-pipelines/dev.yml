@@ -1,0 +1,25 @@
+trigger:
+  - main
+
+resources:
+  - repo: self
+
+variables:
+  - template: vars/global.yaml
+  - template: vars/dev.yaml
+
+stages:
+  - stage: Terraform deployment
+    displayName: Deploy infra via Terraform
+    jobs:
+      - job: Deploy
+        displayName: Deploy infra
+        pool:
+          vmImage: "ubuntu-latest"
+
+        steps:
+          # install terraform
+          - task: TerraformInstaller@0
+            displayName: Install Terraform
+            inputs: 
+              terraformVersion: 'latest'
