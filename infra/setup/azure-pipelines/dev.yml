@@ -45,10 +45,10 @@ stages:
               allowTelemetryCollection: true
           
   - stage: TerraformDeploy
-    condition: succeed('TerraformValidate')
+    condition: succeeded('TerraformValidate')
     dependsOn: TerraformValidate
     jobs:
-      - job:
+      - job: Deploy
         displayName: Deploy terraform
         steps:
           # install terraform
