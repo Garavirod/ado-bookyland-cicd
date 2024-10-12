@@ -19,6 +19,9 @@ variable "tf_state_lock_table" {
   default     = "devops-tf-lock-bookyland-ado"
 }
 
+variable "aws_region" {
+}
+
 data "aws_caller_identity" "current" {}
 
 // Docker Hub

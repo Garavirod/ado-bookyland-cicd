@@ -7,16 +7,16 @@ terraform {
   }
 
   backend "s3" {
-    bucket         = var.tf_state_bucket
+    bucket         = "${var.tf_state_bucket}"
     key            = "tf-state-setup"
-    region         = "us-east-1"
+    region         = "${var.aws_region}"
     encrypt        = true
-    dynamodb_table = var.tf_state_lock_table
+    dynamodb_table = "${var.tf_state_lock_table}"
   }
 }
 
 provider "aws" {
-  region = "us-east-1"
+  region = "${var.aws_region}"
   default_tags {
     tags = {
       Environment = terraform.workspace
