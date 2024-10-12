@@ -7,11 +7,11 @@ terraform {
   }
 
   backend "s3" {
-    bucket         = "${var.tf_state_bucket}"
+    bucket         = "devops-tf-state-bookyland-ado"
     key            = "tf-state-setup"
     region         = "${var.aws_region}"
     encrypt        = true
-    dynamodb_table = "${var.tf_state_lock_table}"
+    dynamodb_table = "devops-tf-lock-bookyland-ado"
   }
 }
 
