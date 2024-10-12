@@ -83,7 +83,8 @@ stages:
               commandOptions: |
                 -input=false 
                 -out=tf-plan 
-                -var "aws_region=$(region)" "dockerhub_token=$(dockerhub_token)"
+                -var "aws_region=$(region)" 
+                -var "dockerhub_token=$(dockerhub_token)"
               allowTelemetryCollection: true
               providerServiceAws: "aws_rod_dev_connection"
               providerAwsRegion: $(region)
