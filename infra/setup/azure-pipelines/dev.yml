@@ -9,7 +9,7 @@ variables:
   - template: vars/dev.yml
 
 pool:
-  vmImage: ubuntu-latest
+  name: Default
 
 stages:
   - stage: TerraformValidate
