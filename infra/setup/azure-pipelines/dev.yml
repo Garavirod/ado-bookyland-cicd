@@ -61,7 +61,7 @@ stages:
               commandOptions: '"tf-plan"'
               allowTelemetryCollection: true
               providerServiceAws: $(variables.awsConnection)
-              providerAwsRegion: 4(variables.region)
+              providerAwsRegion: $(variables.region)
           # Terraform done
           - script: echo "Infrastructure deployment completed."
             displayName: 'Done'
