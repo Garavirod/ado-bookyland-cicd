@@ -32,7 +32,7 @@ stages:
               workingDirectory: 'infra/setup'
               backendType: 'aws'
               allowTelemetryCollection: true
-              backendServiceAws: eq(variables.aws_rod_dev_connection,'')
+              backendServiceAws: 'aws_rod_dev_connection'
               backendAwsRegion: eq(variables.region,'')
               backendAwsBucket: eq(variables.bucketState,'')
               backendAwsKey: eq(variables.key,'')
