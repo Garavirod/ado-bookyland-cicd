@@ -32,10 +32,10 @@ stages:
               workingDirectory: 'infra/setup'
               backendType: 'aws'
               allowTelemetryCollection: true
-              backendServiceAws: eq(variables.aws_rod_dev_connection,'')
-              backendAwsRegion: eq(variables.region,'')
-              backendAwsBucket: eq(variables.bucketState,'')
-              backendAwsKey: eq(variables.key,'')
+              backendServiceAws: $(variables.awsConnection)
+              backendAwsRegion: $(variables.region)
+              backendAwsBucket: $(variables.bucketState)
+              backendAwsKey: $(variables.key)
 
           # Terraform validate
           - task: TerraformCLI@2
@@ -51,8 +51,8 @@ stages:
               workingDirectory: '/infra/setup'
               commandOptions: '-out tf-paln'
               allowTelemetryCollection: true
-              providerServiceAws: 'aws_rod_dev_connection'
-              providerAwsRegion: eq(variables.region,'')
+              providerServiceAws: $(variables.awsConnection)
+              providerAwsRegion: $(variables.region)
           # Terraform apply
           - task: TerraformCLI@2
             inputs:
@@ -60,8 +60,8 @@ stages:
               workingDirectory: '/infra/setup'
               commandOptions: '"tf-plan"'
               allowTelemetryCollection: true
-              providerServiceAws: 'aws_rod_dev_connection'
-              providerAwsRegion: eq(variables.region,'')
+              providerServiceAws: $(variables.awsConnection)
+              providerAwsRegion: 4(variables.region)
           # Terraform done
           - script: echo "Infrastructure deployment completed."
             displayName: 'Done'
