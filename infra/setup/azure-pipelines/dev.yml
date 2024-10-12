@@ -8,6 +8,7 @@ variables:
   - template: vars/global.yaml
   - template: vars/dev.yaml
 
+
 stages:
   - stage: Terraform deployment
     displayName: Deploy infra via Terraform
@@ -23,3 +24,45 @@ stages:
             displayName: Install Terraform
             inputs: 
               terraformVersion: 'latest'
+          
+          # Terraform init
+          - task: TerraformCLI@2
+            inputs:
+              command: 'init'
+              workingDirectory: 'infra/setup'
+              backendType: 'aws'
+              allowTelemetryCollection: true
+              backendServiceAws: eq('variables.aws_rod_dev_connection','')
+              backendAwsRegion: eq('variables.region','')
+              backendAwsBucket: eq('variables.bucketState','')
+              backendAwsKey: eq('variables.key','')
+
+          # Terraform validate
+          - task: TerraformCLI@2
+            inputs:
+              command: 'validate'
+              workingDirectory: '/infra/setup'
+              allowTelemetryCollection: true
+          
+          # Terraform plan
+          - task: TerraformCLI@2
+            inputs:
+              command: 'plan'
+              workingDirectory: '/infra/setup'
+              commandOptions: '-out tf-paln'
+              allowTelemetryCollection: true
+              providerServiceAws: 'aws_rod_dev_connection'
+              providerAwsRegion: eq('variables.region','')
+          # Terraform apply
+          - task: TerraformCLI@2
+            inputs:
+              command: 'apply'
+              workingDirectory: '/infra/setup'
+              commandOptions: '"tf-plan"'
+              allowTelemetryCollection: true
+              providerServiceAws: 'aws_rod_dev_connection'
+              providerAwsRegion: eq('variables.region','')
+          # Terraform done
+          - script: echo "Infrastructure deployment completed."
+            displayName: 'Done'
+          
