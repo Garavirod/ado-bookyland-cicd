@@ -10,7 +10,7 @@ variables:
 
 
 stages:
-  - stage: Terraform deployment
+  - stage: TerraformDeployment
     displayName: Deploy infra via Terraform
     jobs:
       - job: Deploy
