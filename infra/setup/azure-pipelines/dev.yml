@@ -31,13 +31,13 @@ stages:
             inputs:
               command: "init"
               workingDirectory: "infra/setup"
-              commandOptions: -input=false -var "aws_region=$(variables.region)"
+              commandOptions: -input=false -var "aws_region=$(region)"
               backendType: "aws"
               allowTelemetryCollection: true
               backendServiceAws: "aws_rod_dev_connection"
-              backendAwsRegion: $(variables.region)
-              backendAwsBucket: $(variables.bucketState)
-              backendAwsKey: $(variables.key)
+              backendAwsRegion: $(region)
+              backendAwsBucket: $(bucketState)
+              backendAwsKey: $(key)
 
           # Terraform validate
           - task: TerraformCLI@2
@@ -66,13 +66,13 @@ stages:
             inputs:
               command: "init"
               workingDirectory: "infra/setup"
-              commandOptions: -input=false -var "aws_region=$(variables.region)"
+              commandOptions: -input=false -var "aws_region=$(region)"
               backendType: "aws"
               allowTelemetryCollection: true
               backendServiceAws: "aws_rod_dev_connection"
-              backendAwsRegion: $(variables.region)
-              backendAwsBucket: $(variables.bucketState)
-              backendAwsKey: $(variables.key)
+              backendAwsRegion: $(region)
+              backendAwsBucket: $(bucketState)
+              backendAwsKey: $(key)
 
           # Terraform plan
           - task: TerraformCLI@2
@@ -80,10 +80,10 @@ stages:
             inputs:
               command: "plan"
               workingDirectory: "/infra/setup"
-              commandOptions: -input=false -out=tf-plan -var "aws_region=$(variables.region)"
+              commandOptions: -input=false -out=tf-plan -var "aws_region=$(region)"
               allowTelemetryCollection: true
               providerServiceAws: "aws_rod_dev_connection"
-              providerAwsRegion: $(variables.region)
+              providerAwsRegion: $(region)
 
           # Terraform apply
           - task: TerraformCLI@2
@@ -94,7 +94,7 @@ stages:
               commandOptions: tf-plan
               allowTelemetryCollection: true
               providerServiceAws: "aws_rod_dev_connection"
-              providerAwsRegion: $(variables.region)
+              providerAwsRegion: $(region)
           # Terraform done
           - script: echo "Infrastructure deployment completed."
             displayName: "Done"
