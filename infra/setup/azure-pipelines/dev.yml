@@ -8,6 +8,8 @@ variables:
   - template: vars/global.yml
   - template: vars/dev.yml
 
+pool:
+    vmImage: "ubuntu-latest"
 
 stages:
   - stage: TerraformDeployment
@@ -15,9 +17,7 @@ stages:
     jobs:
       - job: Deploy
         displayName: Deploy infra
-        pool:
-          vmImage: "ubuntu-latest"
-
+        continueOnError: false
         steps:
           # install terraform
           - task: TerraformInstaller@2
