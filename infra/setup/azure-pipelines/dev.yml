@@ -12,11 +12,11 @@ pool:
     vmImage: "ubuntu-latest"
 
 stages:
-  - stage: TerraformDeployment
-    displayName: Deploy infra via Terraform
+  - stage: TerraformValidate
+    displayName: Terraform validation
     jobs:
-      - job: Deploy
-        displayName: Deploy infra
+      - job: validate
+        displayName: Validate terraform
         continueOnError: false
         steps:
           # install terraform
@@ -44,6 +44,31 @@ stages:
               workingDirectory: '/infra/setup'
               allowTelemetryCollection: true
           
+  - stage: TerraformDeploy
+    condition: succeed('TerraformValidate')
+    dependsOn: TerraformValidate
+    jobs:
+      - job:
+        displayName: Deploy terraform
+        steps:
+          # install terraform
+          - task: TerraformInstaller@2
+            displayName: Install Terraform
+            inputs: 
+              terraformVersion: 'latest'
+          
+          # Terraform init
+          - task: TerraformCLI@2
+            inputs:
+              command: 'init'
+              workingDirectory: 'infra/setup'
+              backendType: 'aws'
+              allowTelemetryCollection: true
+              backendServiceAws: 'aws_rod_dev_connection'
+              backendAwsRegion: $(variables.region)
+              backendAwsBucket: $(variables.bucketState)
+              backendAwsKey: $(variables.key)
+
           # Terraform plan
           - task: TerraformCLI@2
             inputs:
@@ -53,6 +78,7 @@ stages:
               allowTelemetryCollection: true
               providerServiceAws: 'aws_rod_dev_connection'
               providerAwsRegion: $(variables.region)
+
           # Terraform apply
           - task: TerraformCLI@2
             inputs:
