@@ -80,7 +80,10 @@ stages:
             inputs:
               command: "plan"
               workingDirectory: "infra/setup"
-              commandOptions: -input=false -out=tf-plan -var "aws_region=$(region)"
+              commandOptions: |
+                -input=false 
+                -out=tf-plan 
+                -var "aws_region=$(region)" "dockerhub_token=$(dockerhub_token)"
               allowTelemetryCollection: true
               providerServiceAws: "aws_rod_dev_connection"
               providerAwsRegion: $(region)
