@@ -9,7 +9,7 @@ variables:
   - template: vars/dev.yml
 
 pool:
-    vmImage: "ubuntu-latest"
+  vmImage: ubuntu-latest
 
 stages:
   - stage: TerraformValidate
@@ -22,17 +22,17 @@ stages:
           # install terraform
           - task: TerraformInstaller@2
             displayName: Install Terraform
-            inputs: 
-              terraformVersion: 'latest'
-          
+            inputs:
+              terraformVersion: "latest"
+
           # Terraform init
           - task: TerraformCLI@2
             inputs:
-              command: 'init'
-              workingDirectory: 'infra/setup'
-              backendType: 'aws'
+              command: "init"
+              workingDirectory: "infra/setup"
+              backendType: "aws"
               allowTelemetryCollection: true
-              backendServiceAws: 'aws_rod_dev_connection'
+              backendServiceAws: "aws_rod_dev_connection"
               backendAwsRegion: $(variables.region)
               backendAwsBucket: $(variables.bucketState)
               backendAwsKey: $(variables.key)
@@ -40,10 +40,10 @@ stages:
           # Terraform validate
           - task: TerraformCLI@2
             inputs:
-              command: 'validate'
-              workingDirectory: '/infra/setup'
+              command: "validate"
+              workingDirectory: "/infra/setup"
               allowTelemetryCollection: true
-          
+
   - stage: TerraformDeploy
     condition: succeeded('TerraformValidate')
     dependsOn: TerraformValidate
@@ -54,17 +54,17 @@ stages:
           # install terraform
           - task: TerraformInstaller@2
             displayName: Install Terraform
-            inputs: 
-              terraformVersion: 'latest'
-          
+            inputs:
+              terraformVersion: "latest"
+
           # Terraform init
           - task: TerraformCLI@2
             inputs:
-              command: 'init'
-              workingDirectory: 'infra/setup'
-              backendType: 'aws'
+              command: "init"
+              workingDirectory: "infra/setup"
+              backendType: "aws"
               allowTelemetryCollection: true
-              backendServiceAws: 'aws_rod_dev_connection'
+              backendServiceAws: "aws_rod_dev_connection"
               backendAwsRegion: $(variables.region)
               backendAwsBucket: $(variables.bucketState)
               backendAwsKey: $(variables.key)
@@ -72,23 +72,22 @@ stages:
           # Terraform plan
           - task: TerraformCLI@2
             inputs:
-              command: 'plan'
-              workingDirectory: '/infra/setup'
-              commandOptions: '-out tf-paln'
+              command: "plan"
+              workingDirectory: "/infra/setup"
+              commandOptions: "-out tf-paln"
               allowTelemetryCollection: true
-              providerServiceAws: 'aws_rod_dev_connection'
+              providerServiceAws: "aws_rod_dev_connection"
               providerAwsRegion: $(variables.region)
 
           # Terraform apply
           - task: TerraformCLI@2
             inputs:
-              command: 'apply'
-              workingDirectory: '/infra/setup'
+              command: "apply"
+              workingDirectory: "/infra/setup"
               commandOptions: '"tf-plan"'
               allowTelemetryCollection: true
-              providerServiceAws: 'aws_rod_dev_connection'
+              providerServiceAws: "aws_rod_dev_connection"
               providerAwsRegion: $(variables.region)
           # Terraform done
           - script: echo "Infrastructure deployment completed."
-            displayName: 'Done'
-          
+            displayName: "Done"
