@@ -4,14 +4,14 @@ steps:
     displayName: terraform plan
     inputs:
       command: "plan"
-      workingDirectory: "infra/setup"
+      workingDirectory: $(workingDirectory)
       commandOptions: |
         -input=false 
         -out=tf-plan 
         -var "aws_region=$(region)" 
         -var "dockerhub_token=$(dockerhub_token)"
       allowTelemetryCollection: true
-      providerServiceAws: "aws_rod_dev_connection"
+      providerServiceAws: $(awsConnection)
       providerAwsRegion: $(region)
 
   # Terraform apply
@@ -19,8 +19,8 @@ steps:
     displayName: terraform apply
     inputs:
       command: "apply"
-      workingDirectory: "infra/setup"
+      workingDirectory: $(workingDirectory)
       commandOptions: tf-plan
       allowTelemetryCollection: true
-      providerServiceAws: "aws_rod_dev_connection"
+      providerServiceAws: $(awsConnection)
       providerAwsRegion: $(region)

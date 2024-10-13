@@ -10,11 +10,11 @@ steps:
     displayName: terraform init
     inputs:
       command: "init"
-      workingDirectory: "infra/setup"
+      workingDirectory: $(workingDirectory)
       commandOptions: -input=false -var "aws_region=$(region)"
       backendType: "aws"
       allowTelemetryCollection: true
-      backendServiceAws: "aws_rod_dev_connection"
+      backendServiceAws: $(awsConnection)
       backendAwsRegion: $(region)
       backendAwsBucket: $(bucketState)
       backendAwsKey: $(key)

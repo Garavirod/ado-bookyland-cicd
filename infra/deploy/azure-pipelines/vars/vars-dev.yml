@@ -1,0 +1,8 @@
+variables:
+  # ECR
+  repoName: 'bokkyland-ado-repo'
+  # Environment
+  environment: 'dev'
+  # AWS Connection service
+  awsConnection: aws_rod_dev_connection
+  region: 'us-east-1'

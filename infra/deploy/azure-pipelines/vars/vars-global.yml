@@ -2,10 +2,8 @@ variables:
   # TF Backend
   bucketState: 'devops-tf-state-bookyland-ado'
   dynamoTable: 'devops-tf-lock-bookyland-ado'
-  region: 'us-east-1'
-  env: 'dev'
+  workingDirectory: 'infra/deploy'
   key: 'tf-state-setup'
-  awsConnection: 'aws_rod_dev_connection'
   # Docker
   imageTag: '$(Build.BuildId)'
   imageName: 'bookyland-app'
