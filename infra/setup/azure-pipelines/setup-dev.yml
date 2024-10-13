@@ -29,6 +29,7 @@ stages:
               allowTelemetryCollection: true
 
   - stage: TerraformDeploy
+    displayName: Terraform deployment
     condition: succeeded('TerraformValidate')
     dependsOn: TerraformValidate
     jobs:

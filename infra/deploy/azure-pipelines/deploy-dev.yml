@@ -19,7 +19,7 @@ stages:
   # DOCKER BUILD
   #--------------
   - stage: DockerBuild
-    displayName: Docker build
+    displayName: Docker build and ECR push
     jobs:
       - job: build
         displayName: Docker build
@@ -81,6 +81,7 @@ stages:
   # TERRAFORM DEPLOYMENT
   #---------------------
   - stage: TerraformDeploy
+    displayName: Terraform deployment
     condition: succeeded('TerraformValidate')
     dependsOn: TerraformValidate
     jobs:
