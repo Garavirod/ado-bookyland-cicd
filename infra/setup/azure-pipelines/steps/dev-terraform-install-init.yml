@@ -1,7 +1,3 @@
-variables:
-  - template: ../vars/global.yml
-  - template: ../vars/dev.yml
-
 steps:
   # install terraform
   - task: TerraformInstaller@2
