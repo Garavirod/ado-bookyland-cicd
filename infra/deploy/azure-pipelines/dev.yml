@@ -25,7 +25,8 @@ stages:
               command: build
               dockerfile: '$(Build.SourcesDirectory)/app/Dockerfile'
               repository: $(imageName)
-              tags: $(imageTag)
+              tags: |
+                $(imageTag)
 
           # Push to ECR
           - task: ECRPushImage@1
