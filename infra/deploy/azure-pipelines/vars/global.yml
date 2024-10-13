@@ -8,4 +8,5 @@ variables:
   awsConnection: 'aws_rod_dev_connection'
   # Docker
   imageTag: '$(Build.BuildId)'
+  imageName: 'bookyland-app'
 
