@@ -19,25 +19,8 @@ stages:
         displayName: Validate terraform
         continueOnError: false
         steps:
-          # install terraform
-          - task: TerraformInstaller@2
-            displayName: Install Terraform
-            inputs:
-              terraformVersion: "latest"
-
-          # Terraform init
-          - task: TerraformCLI@2
-            displayName: terraform init
-            inputs:
-              command: "init"
-              workingDirectory: "infra/setup"
-              commandOptions: -input=false -var "aws_region=$(region)"
-              backendType: "aws"
-              allowTelemetryCollection: true
-              backendServiceAws: "aws_rod_dev_connection"
-              backendAwsRegion: $(region)
-              backendAwsBucket: $(bucketState)
-              backendAwsKey: $(key)
+          # Terraform install and init
+          - template: steps/dev-terraform-install-init.yml
 
           # Terraform validate
           - task: TerraformCLI@2
@@ -54,51 +37,10 @@ stages:
       - job: Deploy
         displayName: Deploy terraform
         steps:
-          # install terraform
-          - task: TerraformInstaller@2
-            displayName: Install Terraform
-            inputs:
-              terraformVersion: "latest"
+          # Terraform install and init
+          - template: steps/dev-terraform-install-init.yml
 
-          # Terraform init
-          - task: TerraformCLI@2
-            displayName: terraform init
-            inputs:
-              command: "init"
-              workingDirectory: "infra/setup"
-              commandOptions: -input=false -var "aws_region=$(region)"
-              backendType: "aws"
-              allowTelemetryCollection: true
-              backendServiceAws: "aws_rod_dev_connection"
-              backendAwsRegion: $(region)
-              backendAwsBucket: $(bucketState)
-              backendAwsKey: $(key)
+          # Terraform plan and apply
+          - template: steps/dev-terraform-plan-apply.yml
+          
 
-          # Terraform plan
-          - task: TerraformCLI@2
-            displayName: terraform plan
-            inputs:
-              command: "plan"
-              workingDirectory: "infra/setup"
-              commandOptions: |
-                -input=false 
-                -out=tf-plan 
-                -var "aws_region=$(region)" 
-                -var "dockerhub_token=$(dockerhub_token)"
-              allowTelemetryCollection: true
-              providerServiceAws: "aws_rod_dev_connection"
-              providerAwsRegion: $(region)
-
-          # Terraform apply
-          - task: TerraformCLI@2
-            displayName: terraform apply
-            inputs:
-              command: "apply"
-              workingDirectory: "infra/setup"
-              commandOptions: tf-plan
-              allowTelemetryCollection: true
-              providerServiceAws: "aws_rod_dev_connection"
-              providerAwsRegion: $(region)
-          # Terraform done
-          - script: echo "Infrastructure deployment completed."
-            displayName: "Done"

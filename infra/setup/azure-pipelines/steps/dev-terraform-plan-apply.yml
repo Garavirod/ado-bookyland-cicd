@@ -1,0 +1,30 @@
+variables:
+  - template: ../vars/global.yml
+  - template: ../vars/dev.yml
+
+steps:
+  # Terraform plan
+  - task: TerraformCLI@2
+    displayName: terraform plan
+    inputs:
+      command: "plan"
+      workingDirectory: "infra/setup"
+      commandOptions: |
+        -input=false 
+        -out=tf-plan 
+        -var "aws_region=$(region)" 
+        -var "dockerhub_token=$(dockerhub_token)"
+      allowTelemetryCollection: true
+      providerServiceAws: "aws_rod_dev_connection"
+      providerAwsRegion: $(region)
+
+  # Terraform apply
+  - task: TerraformCLI@2
+    displayName: terraform apply
+    inputs:
+      command: "apply"
+      workingDirectory: "infra/setup"
+      commandOptions: tf-plan
+      allowTelemetryCollection: true
+      providerServiceAws: "aws_rod_dev_connection"
+      providerAwsRegion: $(region)
