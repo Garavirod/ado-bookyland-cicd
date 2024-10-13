@@ -9,7 +9,6 @@ steps:
         -input=false 
         -out=tf-plan 
         -var "aws_region=$(region)" 
-        -var "dockerhub_token=$(dockerhub_token)"
       allowTelemetryCollection: true
       providerServiceAws: $(awsConnection)
       providerAwsRegion: $(region)
