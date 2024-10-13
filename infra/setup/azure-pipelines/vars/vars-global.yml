@@ -1,7 +1,7 @@
 variables:
   bucketState: 'devops-tf-state-bookyland-ado'
   dynamoTable: 'devops-tf-lock-bookyland-ado'
-  region: 'us-east-1'
+  region: 'eu-east-1'
   env: 'dev'
   key: 'tf-state-setup'
-
+  workingDirectory: 'infra/setup'

@@ -3,8 +3,8 @@ resources:
   - repo: self
 
 variables:
-  - template: vars/global.yml
-  - template: vars/dev.yml
+  - template: vars/vars-global.yml
+  - template: vars/vars-dev.yml
 
 pool:
   name: Default
@@ -25,7 +25,7 @@ stages:
             displayName: terraform validate
             inputs:
               command: "validate"
-              workingDirectory: "infra/setup"
+              workingDirectory: $(workingDirectory)
               allowTelemetryCollection: true
 
   - stage: TerraformDeploy

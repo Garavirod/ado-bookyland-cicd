@@ -3,7 +3,7 @@ variables:
   bucketState: 'devops-tf-state-bookyland-ado'
   dynamoTable: 'devops-tf-lock-bookyland-ado'
   workingDirectory: 'infra/deploy'
-  key: 'tf-state-setup'
+  key: 'tf-state-deploy'
   # Docker
   imageTag: '$(Build.BuildId)'
   imageName: 'bookyland-app'
