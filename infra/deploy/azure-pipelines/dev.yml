@@ -33,9 +33,10 @@ stages:
               awsCredentials: 'aws_rod_dev_connection'
               regionName: $(region)
               imageSource: 'imageid'
-              sourceImage: '$(imageName):$(imageTag)'
+              sourceImageId: '$(imageName):$(imageTag)'
               repositoryName: '$(repoName)'
               pushTag: '$(imageTag)'
+              forceDockerNamingConventions: true
           
   # # TERRAFORM DEPLOY
   # - stage: TerraformValidate
