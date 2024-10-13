@@ -29,6 +29,7 @@ stages:
 
           # Push to ECR
           - task: ECRPushImage@1
+            displayName: Push into ECR
             inputs:
               awsCredentials: 'aws_rod_dev_connection'
               regionName: $(region)
