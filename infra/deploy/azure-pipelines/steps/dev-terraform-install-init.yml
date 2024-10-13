@@ -1,0 +1,20 @@
+steps:
+  # install terraform
+  - task: TerraformInstaller@2
+    displayName: Install Terraform
+    inputs:
+      terraformVersion: "latest"
+
+  # Terraform init
+  - task: TerraformCLI@2
+    displayName: terraform init
+    inputs:
+      command: "init"
+      workingDirectory: "infra/setup"
+      commandOptions: -input=false -var "aws_region=$(region)"
+      backendType: "aws"
+      allowTelemetryCollection: true
+      backendServiceAws: "aws_rod_dev_connection"
+      backendAwsRegion: $(region)
+      backendAwsBucket: $(bucketState)
+      backendAwsKey: $(key)
