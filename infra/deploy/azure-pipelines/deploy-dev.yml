@@ -21,7 +21,7 @@ stages:
   - stage: DockerBuild
     displayName: Docker build and ECR push into $(environment)
     jobs:
-      template: jobs/docker-build-push-ecr-jobs.yml
+      - template: jobs/docker-build-push-ecr-jobs.yml
 
   #------------------
   # TEST/UNIT TESTING
@@ -39,7 +39,7 @@ stages:
     # dependsOn: UnitTesting
     displayName: Terraform validation
     jobs:
-      template: jobs/terraform-validation-jobs.yml
+      - template: jobs/terraform-validation-jobs.yml
     
 
   #---------------------
