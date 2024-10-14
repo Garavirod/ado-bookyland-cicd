@@ -4,42 +4,28 @@ resources:
 
 variables:
   - template: vars/vars-global.yml
-  - template: vars/vars-dev.yml
+  - template: vars/vars-prod.yml # IMPORTANT
 
 pool:
   name: Default
 
 stages:
+  ########################
+  # TERRAFORM VALIDATION #
+  ########################
   - stage: TerraformValidate
     displayName: Terraform validation
     jobs:
-      - job: validate
-        displayName: Validate terraform
-        continueOnError: false
-        steps:
-          # Terraform install and init
-          - template: steps/dev-terraform-install-init.yml
+      - template: jobs/terraform-validation-jobs.yml
 
-          # Terraform validate
-          - task: TerraformCLI@2
-            displayName: terraform validate
-            inputs:
-              command: "validate"
-              workingDirectory: $(workingDirectory)
-              allowTelemetryCollection: true
-
+  ########################
+  # TERRAFORM DEPLOYMENT #
+  ########################
   - stage: TerraformDeploy
     displayName: Terraform deployment
     condition: succeeded('TerraformValidate')
     dependsOn: TerraformValidate
     jobs:
-      - job: Deploy
-        displayName: Deploy terraform
-        steps:
-          # Terraform install and init
-          - template: steps/dev-terraform-install-init.yml
-
-          # Terraform plan and apply
-          - template: steps/dev-terraform-plan-apply.yml
+      - template: jobs/terraform-deploy-jobs.yml
           
 

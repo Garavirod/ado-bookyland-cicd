@@ -1,0 +1,9 @@
+jobs:
+  - job: Deploy
+    displayName: Deploy terraform
+    steps:
+      # Terraform install and init
+      - template: ../steps/terraform-install-init.yml
+
+      # Terraform plan and apply
+      - template: ../steps/terraform-plan-apply.yml

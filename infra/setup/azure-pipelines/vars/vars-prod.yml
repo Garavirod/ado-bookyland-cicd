@@ -1,0 +1,8 @@
+variables:
+  bucketState: 'devops-tf-state-bookyland-ado-prod'
+  dynamoTable: 'devops-tf-lock-bookyland-ado-prod'
+  region: 'us-east-1'
+  env: 'prod'
+  key: 'tf-state-setup-prod'
+  awsConnection: <connection>
+
