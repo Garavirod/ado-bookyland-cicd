@@ -1,0 +1,35 @@
+##################################
+# TERRAFORM SETUP DEV MANAGEMENT #
+##################################
+
+trigger: none
+resources:
+  - repo: self
+
+variables:
+  - template: vars/vars-global.yml
+  - template: vars/vars-prod.yml # IMPORTANT
+
+pool:
+  name: Default
+
+stages:
+  ########################
+  # TERRAFORM VALIDATION #
+  ########################
+  - stage: TerraformValidate
+    displayName: Terraform validation
+    jobs:
+      - template: jobs/terraform-validation-jobs.yml
+
+  ########################
+  # TERRAFORM DEPLOYMENT #
+  ########################
+  - stage: TerraformDeploy
+    displayName: Terraform deployment
+    condition: succeeded('TerraformValidate')
+    dependsOn: TerraformValidate
+    jobs:
+      - template: jobs/terraform-deploy-jobs.yml
+          
+
