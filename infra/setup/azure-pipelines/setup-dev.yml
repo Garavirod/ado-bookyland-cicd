@@ -1,10 +1,14 @@
+##################################
+# TERRAFORM SETUP DEV MANAGEMENT #
+##################################
+
 trigger: none
 resources:
   - repo: self
 
 variables:
   - template: vars/vars-global.yml
-  - template: vars/vars-prod.yml # IMPORTANT
+  - template: vars/vars-dev.yml # IMPORTANT
 
 pool:
   name: Default
