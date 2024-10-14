@@ -10,7 +10,7 @@ resources:
 
 variables:
   - template: vars/vars-global.yml
-  - template: vars/vars-dev.yml # IMPORTANT
+  - template: vars/vars-prod.yml # IMPORTANT
 pool:
   name: Default
 
