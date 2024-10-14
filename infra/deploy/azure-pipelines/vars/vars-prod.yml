@@ -1,0 +1,8 @@
+variables:
+  # ECR
+  repoName: '<ecr_repo_name>'
+  # Environment
+  environment: 'prod'
+  # AWS Connection service
+  awsConnection: <aws_connection>
+  region: '<aws_region>'

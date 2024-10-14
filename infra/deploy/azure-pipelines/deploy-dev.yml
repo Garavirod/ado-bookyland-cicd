@@ -10,7 +10,7 @@ resources:
 
 variables:
   - template: vars/vars-global.yml
-  - template: vars/vars-dev.yml
+  - template: vars/vars-dev.yml # IMPORTANT
 pool:
   name: Default
 
@@ -19,39 +19,16 @@ stages:
   # DOCKER BUILD
   #--------------
   - stage: DockerBuild
-    displayName: Docker build and ECR push
+    displayName: Docker build and ECR push into $(environment)
     jobs:
-      - job: build
-        displayName: Docker build
-        continueOnError: false
-        steps: 
-          # Build image
-          - task: Docker@2
-            displayName: Build image
-            inputs:
-              command: build
-              dockerfile: '$(Build.SourcesDirectory)/app/Dockerfile'
-              repository: $(imageName)
-              tags: |
-                $(imageTag)
-
-          # Push to ECR
-          - task: ECRPushImage@1
-            displayName: Push into ECR
-            inputs:
-              awsCredentials: $(awsConnection)
-              regionName: $(region)
-              imageSource: 'imageid'
-              sourceImageId: '$(imageName):$(imageTag)'
-              repositoryName: '$(repoName)'
-              pushTag: '$(imageTag)'
-              forceDockerNamingConventions: true
+      template: jobs/docker-build-push-ecr-jobs.yml
 
   #------------------
   # TEST/UNIT TESTING
   #------------------
 
   # - stage: UnitTesting
+  #   dependsOn: DockerBuild
   #   displayName: Unit Test
   #   jobs:
 
@@ -59,39 +36,20 @@ stages:
   # TERRAFORM VALIDATION
   #---------------------
   - stage: TerraformValidate
+    # dependsOn: UnitTesting
     displayName: Terraform validation
     jobs:
-      - job: validate
-        displayName: Validate terraform
-        continueOnError: false
-        steps:
-          # Terraform install and init
-          - template: steps/dev-terraform-install-init.yml
-
-          # Terraform validate
-          - task: TerraformCLI@2
-            displayName: terraform validate
-            inputs:
-              command: "validate"
-              workingDirectory: $(workingDirectory)
-              allowTelemetryCollection: true
+      template: jobs/terraform-validation-jobs.yml
     
 
   #---------------------
   # TERRAFORM DEPLOYMENT
   #---------------------
   - stage: TerraformDeploy
-    displayName: Terraform deployment
-    condition: succeeded('TerraformValidate')
     dependsOn: TerraformValidate
+    displayName: Terraform deployment into $(environment)
+    condition: succeeded('TerraformValidate')
     jobs:
-      - job: Deploy
-        displayName: Deploy terraform
-        steps:
-          # Terraform install and init
-          - template: steps/dev-terraform-install-init.yml
-
-          # Terraform plan and apply
-          - template: steps/dev-terraform-plan-apply.yml
+      - template: jobs/terraform-deploy-jobs.yml
           
 

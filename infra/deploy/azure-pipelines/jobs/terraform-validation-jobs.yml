@@ -1,0 +1,15 @@
+jobs:
+  - job: validate
+    displayName: Validate terraform
+    continueOnError: false
+    steps:
+      # Terraform install and init
+      - template: steps/terraform-install-init.yml
+
+      # Terraform validate
+      - task: TerraformCLI@2
+        displayName: terraform validate
+        inputs:
+          command: "validate"
+          workingDirectory: $(workingDirectory)
+          allowTelemetryCollection: true
