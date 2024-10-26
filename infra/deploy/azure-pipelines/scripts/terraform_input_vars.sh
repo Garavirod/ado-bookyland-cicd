@@ -1,5 +1,5 @@
 # vars.sh
-declare -A variables=(
+declare -A tf_input_variables=(
     ["aws_region"]="${Region}"
     ["conn_string"]="${Connstring}"
     ["repo_url"]="${RepoUrl}"

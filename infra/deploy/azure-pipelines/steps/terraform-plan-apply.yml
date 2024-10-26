@@ -23,7 +23,7 @@ steps:
         terraform plan \
         -input=false \
         -out-plan=tf-plan \ 
-        $(for key in "${!variables[@]}"; do echo -var "\"$key=${variables[$key]}\""; done)
+        $(for key in "${!tf_input_variables[@]}"; do echo -var "\"$key=${tf_input_variables[$key]}\""; done)
 
   # Terraform apply
   - task: TerraformCLI@2
