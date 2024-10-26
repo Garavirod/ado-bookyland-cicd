@@ -1,8 +1,10 @@
 variables:
+- group: MyVariableGroup  # Link variable group defined in Azure DevOps GUI
   bucketState: 'devops-tf-state-bookyland-ado'
   dynamoTable: 'devops-tf-lock-bookyland-ado'
   region: 'us-east-1'
   env: 'dev'
   key: 'tf-state-setup'
   awsConnection: aws_rod_dev_connection
+  ssmParamStrConn: $(SsmParamStrConn)  # variable from the Variable Group
 

@@ -13,6 +13,18 @@ steps:
       providerServiceAws: $(awsConnection)
       providerAwsRegion: $(region)
 
+  -  task: Bash@2
+     displayName: 'Terraform plan'
+     inputs:
+      scrip : |
+        # Source terraform input variables
+        source $(Build.SourcesDirectory)/infra/deploy/azure-pipelines/scripts/terraform_input_vars.sh
+        # Command
+        terraform plan \
+        -input=false \
+        -out-plan=tf-plan \ 
+        $(for key in "${!variables[@]}"; do echo -var "\"$key=${variables[$key]}\""; done)
+
   # Terraform apply
   - task: TerraformCLI@2
     displayName: terraform apply
